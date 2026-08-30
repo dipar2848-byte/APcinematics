@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Cinematic videography — weddings, brands and stories." />
+  <title>Cinematic Videography</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+  <!-- Fonts: an editorial serif + a clean grotesque -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ============================ NAV ============================ -->
+  <header class="site-nav" id="siteNav">
+    <a href="#top" class="wordmark" data-brand-name></a>
+    <a href="#booking" class="nav-cta" data-hero-cta></a>
+  </header>
+
+  <!-- ============================ HERO =========================== -->
+  <section class="hero" id="top">
+    <div class="hero__media" data-parallax>
+      <img class="hero__img" data-hero-img alt="" />
+      <div class="hero__scrim"></div>
+    </div>
+
+    <div class="hero__content">
+      <p class="hero__eyebrow reveal" data-hero-eyebrow></p>
+      <h1 class="hero__wordmark reveal" data-brand-name></h1>
+      <p class="hero__supporting reveal" data-hero-supporting></p>
+      <a class="btn btn--primary reveal" href="#booking" data-hero-cta></a>
+    </div>
+
+    <a href="#process" class="hero__scroll" aria-label="Scroll down">
+      <span data-hero-scrollhint></span>
+      <span class="hero__scroll-line"></span>
+    </a>
+  </section>
+
+  <!-- ========================= PROCESS =========================== -->
+  <section class="process section" id="process">
+    <div class="section__head">
+      <h2 class="section__title reveal" data-process-heading></h2>
+    </div>
+    <ol class="process__list" data-process-list></ol>
+  </section>
+
+  <!-- ======================= WHAT WE SHOOT ======================= -->
+  <section class="shoot section" id="shoot">
+    <div class="shoot__inner">
+      <h2 class="shoot__heading reveal" data-shoot-heading></h2>
+      <p class="shoot__text reveal" data-shoot-text></p>
+    </div>
+  </section>
+
+  <!-- ========================== ABOUT ============================ -->
+  <section class="about section" id="about">
+    <div class="about__media reveal">
+      <img class="about__img" data-about-img alt="" data-parallax-soft />
+    </div>
+    <div class="about__body">
+      <p class="about__label reveal" data-about-label></p>
+      <h2 class="about__name reveal" data-about-name></h2>
+      <p class="about__role reveal" data-about-role></p>
+      <p class="about__text reveal" data-about-body></p>
+    </div>
+  </section>
+
+  <!-- ========================= BOOKING =========================== -->
+  <section class="booking section" id="booking">
+    <div class="booking__head">
+      <h2 class="booking__heading reveal" data-booking-heading></h2>
+      <p class="booking__intro reveal" data-booking-intro></p>
+    </div>
+
+    <form class="booking__form reveal" id="bookingForm" novalidate>
+      <div class="field">
+        <label for="f-name">Name</label>
+        <input type="text" id="f-name" name="name" autocomplete="name" required />
+        <span class="field__error" data-error-for="name"></span>
+      </div>
+
+      <div class="field field--half">
+        <label for="f-date">Date</label>
+        <input type="date" id="f-date" name="date" required />
+        <span class="field__error" data-error-for="date"></span>
+      </div>
+
+      <div class="field field--half">
+        <label for="f-phone">Phone number</label>
+        <input type="tel" id="f-phone" name="phone" inputmode="tel" autocomplete="tel" required />
+        <span class="field__error" data-error-for="phone"></span>
+      </div>
+
+      <div class="field field--half">
+        <label for="f-city">City</label>
+        <select id="f-city" name="city" required>
+          <option value="" disabled selected>Select a city</option>
+        </select>
+        <span class="field__error" data-error-for="city"></span>
+      </div>
+
+      <!-- Full address revealed after a city is chosen -->
+      <div class="field field--address" id="addressField" hidden>
+        <label for="f-address">Full address</label>
+        <input type="text" id="f-address" name="address" autocomplete="street-address" />
+        <span class="field__error" data-error-for="address"></span>
+      </div>
+
+      <div class="field">
+        <label for="f-message">Message <span class="field__opt">(optional)</span></label>
+        <textarea id="f-message" name="message" rows="3"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--block" data-booking-submit></button>
+    </form>
+  </section>
+
+  <!-- ========================== FOOTER =========================== -->
+  <footer class="site-footer">
+    <div class="site-footer__brand">
+      <span class="wordmark wordmark--footer" data-brand-name></span>
+      <p class="site-footer__note" data-footer-note></p>
+    </div>
+    <nav class="site-footer__links">
+      <a data-footer-instagram target="_blank" rel="noopener">Instagram</a>
+      <a data-footer-whatsapp target="_blank" rel="noopener">WhatsApp</a>
+      <a data-footer-email></a>
+    </nav>
+    <p class="site-footer__copy" data-footer-copyright></p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
