@@ -1,39 +1,42 @@
-# Cinematic Videographer — One-Page Site
+# AP Cinematic — one-page site
 
-A minimal, premium, mobile-first single-page site for a videographer.
-Pure static HTML/CSS/JS — **no backend, no build step**. The booking form
-sends everything straight to WhatsApp.
+A premium, cinematic single-page site for **AP Cinematic** (social-media video
+creator). Pure static HTML/CSS/JS — **no backend, no build step**. Booking goes
+straight to WhatsApp.
 
-## Edit everything in one place
+## Everything is edited in ONE place: `js/config.js`
 
-All changeable content and assets live in **`js/config.js`**.
-Change a value there and it updates everywhere automatically (e.g. the
-WhatsApp number is used by both the booking form and the footer).
-
-### Swap the images
-Replace these two files (keep the same names) — nothing else to change:
-
-| File | Used in | Recommended |
-|------|---------|-------------|
-| `assets/hero-poster.jpg` | Full-screen hero | Tall / portrait-friendly, clean (no text) |
-| `assets/profile.jpg` | About section | Portrait, ~4:5 |
-
-> The current images are placeholders. Just overwrite them.
+Business name, WhatsApp number, Instagram, email, city list, all copy and image
+paths live in that single config object. Change it once and every section
+updates automatically (e.g. the WhatsApp number is shared by the booking form
+and the footer).
 
 ### Change the WhatsApp number
-In `js/config.js` → `contact.whatsapp`. Use full international format,
-digits only (no `+`, spaces or dashes). e.g. `919876543210`.
+`js/config.js` → `contact.whatsapp`. Full international format, digits only
+(no `+`, spaces or dashes), e.g. `919876543210`.
 
-### Cities
+### Swap images (keep the same filenames — nothing else to change)
+| File | Where it shows |
+|------|----------------|
+| `assets/poster.jpg` | The poster / campaign section |
+| `assets/profile.jpg` | About portrait |
+
+> Both are placeholders right now — just overwrite them.
+
+### Service cities (booking dropdown)
 `js/config.js` → `booking.cities`.
 
-### No logo?
-Leave `brand.logo` as `null` — the site uses the text wordmark
-(`brand.name`). If you get a logo later, set `brand.logo` to its path.
+### Logo
+No logo image is supplied, so the text wordmark (`brand.name`) is used. If you
+get a logo later, set `brand.logo` to its path.
+
+## Colour system
+Derived from the poster: deep navy/indigo base, electric cyan/blue, magenta/
+crimson, warm gold, white. The atmospheric light spills are recreated in pure
+CSS (layered radial gradients + blurred blobs + grain) — the poster image is
+**not** used as the background.
 
 ## Run locally
-Any static server works:
-
 ```bash
 python3 -m http.server 8080
 # open http://localhost:8080
@@ -41,9 +44,9 @@ python3 -m http.server 8080
 
 ## Structure
 ```
-index.html        markup
-css/style.css     all styles
-js/config.js      << EDIT THIS — all content & assets
-js/app.js         binding, animations, booking -> WhatsApp
-assets/           images (replace the placeholders)
+index.html      markup
+css/style.css   all styles + CSS atmosphere
+js/config.js    << EDIT THIS — all content, links, images, cities
+js/app.js       binding, animations, booking -> WhatsApp
+assets/         poster.jpg, profile.jpg (replace these)
 ```

@@ -1,7 +1,7 @@
 /* =============================================================================
-   App logic
-   - Binds all content from SITE_CONFIG into the DOM
-   - Cinematic reveals / parallax (IntersectionObserver + rAF)
+   AP CINEMATIC — app logic
+   - Binds all content from SITE_CONFIG
+   - Cinematic entrance + scroll reveals + gentle parallax (rAF)
    - Booking form validation -> pre-filled WhatsApp message (frontend only)
    ============================================================================= */
 
@@ -9,44 +9,52 @@
   "use strict";
   var CFG = window.SITE_CONFIG;
 
-  /* ------------------------------------------------------------------ *
-   *  Small helpers
-   * ------------------------------------------------------------------ */
-  function $(sel, root) { return (root || document).querySelector(sel); }
-  function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
-  function setText(attr, value) {
-    $all("[" + attr + "]").forEach(function (el) { el.textContent = value; });
-  }
+  function $(s, r) { return (r || document).querySelector(s); }
+  function $all(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+  function setText(attr, val) { $all("[" + attr + "]").forEach(function (el) { el.textContent = val; }); }
 
   /* ------------------------------------------------------------------ *
-   *  1. Bind content from config
+   *  1. Bind content
    * ------------------------------------------------------------------ */
   function bindContent() {
-    // Brand / nav
     setText("data-brand-name", CFG.brand.name);
 
     // Hero
-    setText("data-hero-eyebrow", CFG.hero.eyebrow);
+    var parts = CFG.hero.headline.split(/\s+(?=[^\s]+$)/); // split into two lines if possible
+    if (parts.length === 2) {
+      setText("data-hero-line1", parts[0]);
+      setText("data-hero-line2", parts[1]);
+    } else {
+      // fallback: split on the middle space
+      var words = CFG.hero.headline.split(" ");
+      var mid = Math.ceil(words.length / 2);
+      setText("data-hero-line1", words.slice(0, mid).join(" "));
+      setText("data-hero-line2", words.slice(mid).join(" "));
+    }
     setText("data-hero-supporting", CFG.hero.supporting);
-    setText("data-hero-cta", CFG.hero.ctaLabel);
+    setText("data-hero-cta1", CFG.hero.ctaPrimary);
+    setText("data-hero-cta2", CFG.hero.ctaSecondary);
     setText("data-hero-scrollhint", CFG.hero.scrollHint);
+    var cta2 = $("[data-hero-cta2]");
+    if (cta2) cta2.href = CFG.contact.instagram;
 
-    var heroImg = $("[data-hero-img]");
-    if (heroImg) { heroImg.src = CFG.assets.heroPoster; heroImg.alt = CFG.brand.name + " — showreel poster"; }
+    // Poster
+    setText("data-poster-kicker", CFG.poster.kicker);
+    setText("data-poster-caption", CFG.poster.caption);
+    var pimg = $("[data-poster-img]");
+    if (pimg) { pimg.src = CFG.assets.poster; pimg.alt = CFG.brand.name + " poster"; }
 
     // Process
     setText("data-process-heading", CFG.process.heading);
     var list = $("[data-process-list]");
     if (list) {
-      CFG.process.steps.forEach(function (step) {
+      CFG.process.steps.forEach(function (s) {
         var li = document.createElement("li");
         li.className = "process__item reveal";
         li.innerHTML =
-          '<span class="process__no">' + step.no + "</span>" +
-          "<div>" +
-          '<h3 class="process__title">' + step.title + "</h3>" +
-          '<p class="process__text">' + step.text + "</p>" +
-          "</div>";
+          '<span class="process__no">' + s.no + "</span>" +
+          "<div><h3 class='process__title'>" + s.title + "</h3>" +
+          "<p class='process__text'>" + s.text + "</p></div>";
         list.appendChild(li);
       });
     }
@@ -56,40 +64,32 @@
     setText("data-shoot-text", CFG.whatWeShoot.text);
 
     // About
-    setText("data-about-label", CFG.about.label);
+    setText("data-about-brand", CFG.about.brandLine);
     setText("data-about-name", CFG.about.name);
     setText("data-about-role", CFG.about.role);
     setText("data-about-body", CFG.about.body);
-    var aboutImg = $("[data-about-img]");
-    if (aboutImg) { aboutImg.src = CFG.assets.profile; aboutImg.alt = CFG.about.name; }
+    var aimg = $("[data-about-img]");
+    if (aimg) { aimg.src = CFG.assets.profile; aimg.alt = CFG.about.name; }
 
     // Booking
     setText("data-booking-heading", CFG.booking.heading);
     setText("data-booking-intro", CFG.booking.intro);
     setText("data-booking-submit", CFG.booking.submitLabel);
-
-    var citySelect = $("#f-city");
-    if (citySelect) {
-      CFG.booking.cities.forEach(function (city) {
-        var opt = document.createElement("option");
-        opt.value = city;
-        opt.textContent = city;
-        citySelect.appendChild(opt);
+    var sel = $("#f-city");
+    if (sel) {
+      CFG.booking.cities.forEach(function (c) {
+        var o = document.createElement("option");
+        o.value = c; o.textContent = c; sel.appendChild(o);
       });
     }
 
     // Footer
     setText("data-footer-note", CFG.footer.note);
     setText("data-footer-copyright", CFG.footer.copyright);
+    var ig = $("[data-footer-instagram]"); if (ig) ig.href = CFG.contact.instagram;
+    var wa = $("[data-footer-whatsapp]"); if (wa) wa.href = "https://wa.me/" + CFG.contact.whatsapp;
+    var em = $("[data-footer-email]"); if (em) { em.href = "mailto:" + CFG.contact.email; em.textContent = CFG.contact.email; }
 
-    var ig = $("[data-footer-instagram]");
-    if (ig) { ig.href = CFG.contact.instagram; }
-    var wa = $("[data-footer-whatsapp]");
-    if (wa) { wa.href = "https://wa.me/" + CFG.contact.whatsapp; }
-    var em = $("[data-footer-email]");
-    if (em) { em.href = "mailto:" + CFG.contact.email; em.textContent = CFG.contact.email; }
-
-    // Page title
     document.title = CFG.brand.name + " — " + CFG.brand.tagline;
   }
 
@@ -106,8 +106,7 @@
       entries.forEach(function (entry, i) {
         if (entry.isIntersecting) {
           var el = entry.target;
-          // gentle stagger for siblings entering together
-          setTimeout(function () { el.classList.add("is-in"); }, Math.min(i * 80, 240));
+          setTimeout(function () { el.classList.add("is-in"); }, Math.min(i * 70, 210));
           io.unobserve(el);
         }
       });
@@ -116,57 +115,39 @@
   }
 
   /* ------------------------------------------------------------------ *
-   *  3. Hero entrance + parallax + nav state
+   *  3. Entrance + parallax + nav state
    * ------------------------------------------------------------------ */
   function initMotion() {
-    var hero = $(".hero");
-    var heroImg = $("[data-hero-img]");
-    var nav = $("#siteNav");
-    var softImg = $("[data-parallax-soft]");
+    var nav = $("#nav");
     var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // entrance
+    // hero entrance (staggered)
     requestAnimationFrame(function () {
-      if (hero) hero.classList.add("is-ready");
-      // reveal hero content immediately after paint
       $all(".hero .reveal").forEach(function (el, i) {
-        setTimeout(function () { el.classList.add("is-in"); }, 180 + i * 140);
+        setTimeout(function () { el.classList.add("is-in"); }, 140 + i * 120);
       });
     });
 
-    if (reduce) {
-      if (nav) window.addEventListener("scroll", function () {
-        nav.classList.toggle("is-scrolled", window.scrollY > 40);
-      }, { passive: true });
-      return;
-    }
-
+    var softs = $all("[data-parallax-soft]");
     var ticking = false;
     function onScroll() {
       if (ticking) return;
       ticking = true;
       requestAnimationFrame(function () {
         var y = window.scrollY || window.pageYOffset;
-
-        // hero parallax (image drifts slower than scroll)
-        if (heroImg && y < window.innerHeight * 1.2) {
-          heroImg.style.transform = "translateY(" + (y * 0.28) + "px) scale(1)";
-        }
-
-        // soft parallax for about image
-        if (softImg) {
-          var rect = softImg.getBoundingClientRect();
-          var vh = window.innerHeight;
-          if (rect.top < vh && rect.bottom > 0) {
-            var progress = (vh - rect.top) / (vh + rect.height); // 0..1
-            var shift = (progress - 0.5) * 40; // -20..20px
-            softImg.style.transform = "translateY(" + shift + "px)";
-          }
-        }
-
-        // nav state
         if (nav) nav.classList.toggle("is-scrolled", y > 40);
 
+        if (!reduce) {
+          var vh = window.innerHeight;
+          softs.forEach(function (img) {
+            var r = img.getBoundingClientRect();
+            if (r.top < vh && r.bottom > 0) {
+              var progress = (vh - r.top) / (vh + r.height); // 0..1
+              var shift = (progress - 0.5) * 34;
+              img.style.transform = "translateY(" + shift.toFixed(1) + "px)";
+            }
+          });
+        }
         ticking = false;
       });
     }
@@ -175,7 +156,7 @@
   }
 
   /* ------------------------------------------------------------------ *
-   *  4. Booking form -> WhatsApp
+   *  4. Booking -> WhatsApp
    * ------------------------------------------------------------------ */
   function initForm() {
     var form = $("#bookingForm");
@@ -184,7 +165,6 @@
     var addressField = $("#addressField");
     var addressInput = $("#f-address");
 
-    // reveal full-address field once a city is chosen
     citySelect.addEventListener("change", function () {
       if (citySelect.value) {
         addressField.hidden = false;
@@ -206,15 +186,17 @@
        ["date", "Please choose a date."],
        ["phone", "Please enter your phone number."],
        ["city", "Please select a city."]
-      ].forEach(function (pair) {
-        if (!data[pair[0]]) { setError(pair[0], pair[1]); ok = false; }
-        else { setError(pair[0], ""); }
+      ].forEach(function (p) {
+        if (!data[p[0]]) { setError(p[0], p[1]); ok = false; } else { setError(p[0], ""); }
       });
-
-      // address required only once city chosen / field visible
+      // address required (revealed after city choice)
       if (!addressField.hidden) {
         if (!data.address) { setError("address", "Please enter your full address."); ok = false; }
         else { setError("address", ""); }
+      } else if (data.city) {
+        // city chosen but field somehow hidden -> reveal and require
+        addressField.hidden = false;
+        setError("address", "Please enter your full address."); ok = false;
       }
       return ok;
     }
@@ -230,34 +212,28 @@
         address: (fd.get("address") || "").toString().trim(),
         message: (fd.get("message") || "").toString().trim(),
       };
-
       if (!validate(data)) {
-        var firstErr = form.querySelector(".has-error input, .has-error select");
-        if (firstErr) firstErr.focus();
+        var first = form.querySelector(".has-error input, .has-error select");
+        if (first) first.focus();
         return;
       }
 
-      // Build a clean WhatsApp message
       var lines = [
-        "New shoot enquiry",
+        CFG.brand.name + " — shoot enquiry",
         "",
         "Name: " + data.name,
         "Date: " + data.date,
         "Phone: " + data.phone,
         "City: " + data.city,
-        "Address: " + data.address,
+        "Full address: " + data.address,
       ];
       if (data.message) lines.push("Message: " + data.message);
 
-      var text = encodeURIComponent(lines.join("\n"));
-      var url = "https://wa.me/" + CFG.contact.whatsapp + "?text=" + text;
+      var url = "https://wa.me/" + CFG.contact.whatsapp + "?text=" + encodeURIComponent(lines.join("\n"));
       window.open(url, "_blank", "noopener");
     });
   }
 
-  /* ------------------------------------------------------------------ *
-   *  Init
-   * ------------------------------------------------------------------ */
   document.addEventListener("DOMContentLoaded", function () {
     bindContent();
     initReveals();

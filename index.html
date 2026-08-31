@@ -3,68 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="description" content="Cinematic videography — weddings, brands and stories." />
-  <title>Cinematic Videography</title>
+  <meta name="description" content="AP Cinematic — social media video creator. Cinematic content, Navi Mumbai." />
+  <meta name="theme-color" content="#070b1f" />
+  <title>AP Cinematic</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
 
-  <!-- Fonts: an editorial serif + a clean grotesque -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
+  <!-- Global atmospheric color field (CSS light spills) -->
+  <div class="atmos" aria-hidden="true">
+    <span class="atmos__blob atmos__blob--cyan"></span>
+    <span class="atmos__blob atmos__blob--magenta"></span>
+    <span class="atmos__blob atmos__blob--gold"></span>
+    <span class="atmos__grain"></span>
+  </div>
+
   <!-- ============================ NAV ============================ -->
-  <header class="site-nav" id="siteNav">
-    <a href="#top" class="wordmark" data-brand-name></a>
-    <a href="#booking" class="nav-cta" data-hero-cta></a>
+  <header class="nav" id="nav">
+    <a href="#top" class="nav__brand" data-brand-name></a>
+    <nav class="nav__links">
+      <a href="#work" class="nav__link">Poster</a>
+      <a href="#about" class="nav__link">About</a>
+      <a href="#booking" class="nav__cta" data-hero-cta1></a>
+    </nav>
   </header>
 
   <!-- ============================ HERO =========================== -->
   <section class="hero" id="top">
-    <div class="hero__media" data-parallax>
-      <img class="hero__img" data-hero-img alt="" />
-      <div class="hero__scrim"></div>
-    </div>
-
-    <div class="hero__content">
-      <p class="hero__eyebrow reveal" data-hero-eyebrow></p>
-      <h1 class="hero__wordmark reveal" data-brand-name></h1>
+    <div class="hero__inner">
+      <p class="hero__brand reveal" data-brand-name></p>
+      <h1 class="hero__headline">
+        <span class="reveal" data-hero-line1></span>
+        <span class="reveal" data-hero-line2></span>
+      </h1>
       <p class="hero__supporting reveal" data-hero-supporting></p>
-      <a class="btn btn--primary reveal" href="#booking" data-hero-cta></a>
+      <div class="hero__actions reveal">
+        <a class="btn btn--gold" href="#booking" data-hero-cta1></a>
+        <a class="btn btn--ghost" data-hero-cta2 target="_blank" rel="noopener"></a>
+      </div>
     </div>
 
-    <a href="#process" class="hero__scroll" aria-label="Scroll down">
+    <a href="#work" class="hero__scroll" aria-label="Scroll down">
       <span data-hero-scrollhint></span>
       <span class="hero__scroll-line"></span>
     </a>
   </section>
 
+  <!-- ========================= POSTER ============================ -->
+  <section class="work section" id="work">
+    <div class="work__text">
+      <p class="work__kicker reveal" data-poster-kicker></p>
+      <p class="work__caption reveal" data-poster-caption></p>
+    </div>
+    <figure class="work__poster reveal">
+      <img class="work__img" data-poster-img alt="" data-parallax-soft />
+    </figure>
+  </section>
+
   <!-- ========================= PROCESS =========================== -->
   <section class="process section" id="process">
-    <div class="section__head">
-      <h2 class="section__title reveal" data-process-heading></h2>
-    </div>
+    <h2 class="process__heading reveal" data-process-heading></h2>
     <ol class="process__list" data-process-list></ol>
   </section>
 
   <!-- ======================= WHAT WE SHOOT ======================= -->
   <section class="shoot section" id="shoot">
-    <div class="shoot__inner">
-      <h2 class="shoot__heading reveal" data-shoot-heading></h2>
-      <p class="shoot__text reveal" data-shoot-text></p>
-    </div>
+    <h2 class="shoot__heading reveal" data-shoot-heading></h2>
+    <p class="shoot__text reveal" data-shoot-text></p>
   </section>
 
   <!-- ========================== ABOUT ============================ -->
   <section class="about section" id="about">
-    <div class="about__media reveal">
+    <figure class="about__media reveal">
       <img class="about__img" data-about-img alt="" data-parallax-soft />
-    </div>
+    </figure>
     <div class="about__body">
-      <p class="about__label reveal" data-about-label></p>
+      <p class="about__brand reveal" data-about-brand></p>
       <h2 class="about__name reveal" data-about-name></h2>
       <p class="about__role reveal" data-about-role></p>
       <p class="about__text reveal" data-about-body></p>
@@ -105,8 +125,7 @@
         <span class="field__error" data-error-for="city"></span>
       </div>
 
-      <!-- Full address revealed after a city is chosen -->
-      <div class="field field--address" id="addressField" hidden>
+      <div class="field field--half field--address" id="addressField" hidden>
         <label for="f-address">Full address</label>
         <input type="text" id="f-address" name="address" autocomplete="street-address" />
         <span class="field__error" data-error-for="address"></span>
@@ -117,22 +136,24 @@
         <textarea id="f-message" name="message" rows="3"></textarea>
       </div>
 
-      <button type="submit" class="btn btn--primary btn--block" data-booking-submit></button>
+      <button type="submit" class="btn btn--gold btn--block" data-booking-submit></button>
     </form>
   </section>
 
   <!-- ========================== FOOTER =========================== -->
-  <footer class="site-footer">
-    <div class="site-footer__brand">
-      <span class="wordmark wordmark--footer" data-brand-name></span>
-      <p class="site-footer__note" data-footer-note></p>
+  <footer class="footer">
+    <div class="footer__top">
+      <span class="footer__brand" data-brand-name></span>
+      <nav class="footer__links">
+        <a data-footer-instagram target="_blank" rel="noopener">Instagram</a>
+        <a data-footer-whatsapp target="_blank" rel="noopener">WhatsApp</a>
+        <a data-footer-email></a>
+      </nav>
     </div>
-    <nav class="site-footer__links">
-      <a data-footer-instagram target="_blank" rel="noopener">Instagram</a>
-      <a data-footer-whatsapp target="_blank" rel="noopener">WhatsApp</a>
-      <a data-footer-email></a>
-    </nav>
-    <p class="site-footer__copy" data-footer-copyright></p>
+    <div class="footer__bottom">
+      <p class="footer__note" data-footer-note></p>
+      <p class="footer__copy" data-footer-copyright></p>
+    </div>
   </footer>
 
   <script src="js/config.js"></script>
