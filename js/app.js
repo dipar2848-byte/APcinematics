@@ -59,9 +59,20 @@
       });
     }
 
-    // What we shoot
+    // What we shoot (intro + editorial list built from the shootTypes array)
     setText("data-shoot-heading", CFG.whatWeShoot.heading);
-    setText("data-shoot-text", CFG.whatWeShoot.text);
+    setText("data-shoot-intro", CFG.whatWeShoot.intro || "");
+    var shootList = $("[data-shoot-list]");
+    if (shootList) {
+      CFG.shootTypes.forEach(function (t, i) {
+        var li = document.createElement("li");
+        li.className = "shoot__item reveal";
+        li.innerHTML =
+          '<span class="shoot__num">' + String(i + 1).padStart(2, "0") + "</span>" +
+          '<span class="shoot__name">' + t + "</span>";
+        shootList.appendChild(li);
+      });
+    }
 
     // About
     setText("data-about-brand", CFG.about.brandLine);
@@ -80,6 +91,14 @@
       CFG.booking.cities.forEach(function (c) {
         var o = document.createElement("option");
         o.value = c; o.textContent = c; sel.appendChild(o);
+      });
+    }
+    // Type-of-shoot dropdown uses the SAME centralized shootTypes array.
+    var stSel = $("#f-shoottype");
+    if (stSel) {
+      CFG.shootTypes.forEach(function (t) {
+        var o = document.createElement("option");
+        o.value = t; o.textContent = t; stSel.appendChild(o);
       });
     }
 
@@ -161,16 +180,6 @@
   function initForm() {
     var form = $("#bookingForm");
     if (!form) return;
-    var citySelect = $("#f-city");
-    var addressField = $("#addressField");
-    var addressInput = $("#f-address");
-
-    citySelect.addEventListener("change", function () {
-      if (citySelect.value) {
-        addressField.hidden = false;
-        if (addressInput) addressInput.setAttribute("required", "required");
-      }
-    });
 
     function setError(name, msg) {
       var input = form.querySelector('[name="' + name + '"]');
@@ -184,20 +193,14 @@
       var ok = true;
       [["name", "Please enter your name."],
        ["date", "Please choose a date."],
+       ["time", "Please choose a time."],
        ["phone", "Please enter your phone number."],
-       ["city", "Please select a city."]
+       ["city", "Please select a city."],
+       ["shootType", "Please select a shoot type."],
+       ["address", "Please enter your full address."]
       ].forEach(function (p) {
         if (!data[p[0]]) { setError(p[0], p[1]); ok = false; } else { setError(p[0], ""); }
       });
-      // address required (revealed after city choice)
-      if (!addressField.hidden) {
-        if (!data.address) { setError("address", "Please enter your full address."); ok = false; }
-        else { setError("address", ""); }
-      } else if (data.city) {
-        // city chosen but field somehow hidden -> reveal and require
-        addressField.hidden = false;
-        setError("address", "Please enter your full address."); ok = false;
-      }
       return ok;
     }
 
@@ -205,12 +208,14 @@
       e.preventDefault();
       var fd = new FormData(form);
       var data = {
-        name:    (fd.get("name")    || "").toString().trim(),
-        date:    (fd.get("date")    || "").toString().trim(),
-        phone:   (fd.get("phone")   || "").toString().trim(),
-        city:    (fd.get("city")    || "").toString().trim(),
-        address: (fd.get("address") || "").toString().trim(),
-        message: (fd.get("message") || "").toString().trim(),
+        name:      (fd.get("name")      || "").toString().trim(),
+        date:      (fd.get("date")      || "").toString().trim(),
+        time:      (fd.get("time")      || "").toString().trim(),
+        phone:     (fd.get("phone")     || "").toString().trim(),
+        city:      (fd.get("city")      || "").toString().trim(),
+        shootType: (fd.get("shootType") || "").toString().trim(),
+        address:   (fd.get("address")   || "").toString().trim(),
+        message:   (fd.get("message")   || "").toString().trim(),
       };
       if (!validate(data)) {
         var first = form.querySelector(".has-error input, .has-error select");
@@ -223,8 +228,10 @@
         "",
         "Name: " + data.name,
         "Date: " + data.date,
+        "Time: " + data.time,
         "Phone: " + data.phone,
         "City: " + data.city,
+        "Type of shoot: " + data.shootType,
         "Full address: " + data.address,
       ];
       if (data.message) lines.push("Message: " + data.message);

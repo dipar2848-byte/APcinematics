@@ -61,8 +61,10 @@
       <p class="work__kicker reveal" data-poster-kicker></p>
       <p class="work__caption reveal" data-poster-caption></p>
     </div>
-    <figure class="work__poster reveal">
-      <img class="work__img" data-poster-img alt="" data-parallax-soft />
+    <figure class="work__poster reveal" data-parallax-soft>
+      <div class="work__frame">
+        <img class="work__img" data-poster-img alt="" />
+      </div>
     </figure>
   </section>
 
@@ -74,8 +76,11 @@
 
   <!-- ======================= WHAT WE SHOOT ======================= -->
   <section class="shoot section" id="shoot">
-    <h2 class="shoot__heading reveal" data-shoot-heading></h2>
-    <p class="shoot__text reveal" data-shoot-text></p>
+    <div class="shoot__head">
+      <h2 class="shoot__heading reveal" data-shoot-heading></h2>
+      <p class="shoot__intro reveal" data-shoot-intro></p>
+    </div>
+    <ul class="shoot__list" data-shoot-list></ul>
   </section>
 
   <!-- ========================== ABOUT ============================ -->
@@ -112,6 +117,12 @@
       </div>
 
       <div class="field field--half">
+        <label for="f-time">Time</label>
+        <input type="time" id="f-time" name="time" required />
+        <span class="field__error" data-error-for="time"></span>
+      </div>
+
+      <div class="field field--half">
         <label for="f-phone">Phone number</label>
         <input type="tel" id="f-phone" name="phone" inputmode="tel" autocomplete="tel" required />
         <span class="field__error" data-error-for="phone"></span>
@@ -125,9 +136,17 @@
         <span class="field__error" data-error-for="city"></span>
       </div>
 
-      <div class="field field--half field--address" id="addressField" hidden>
+      <div class="field field--half">
+        <label for="f-shoottype">Type of shoot</label>
+        <select id="f-shoottype" name="shootType" required>
+          <option value="" disabled selected>Select a shoot type</option>
+        </select>
+        <span class="field__error" data-error-for="shootType"></span>
+      </div>
+
+      <div class="field field--address" id="addressField">
         <label for="f-address">Full address</label>
-        <input type="text" id="f-address" name="address" autocomplete="street-address" />
+        <input type="text" id="f-address" name="address" autocomplete="street-address" required />
         <span class="field__error" data-error-for="address"></span>
       </div>
 

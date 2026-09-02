@@ -22,13 +22,16 @@ const SITE_CONFIG = {
   },
 
   /* ---- Core assets (replace these files to rebrand) ---------------------- */
+  /* PLACEHOLDERS — replace the files in /assets (keep the same names) or point
+     these values at new paths/URLs. Do not need to touch any other file. */
   assets: {
-    poster:  "assets/poster.jpg",   // the campaign poster (shown in its own section)
-    profile: "assets/profile.jpg",  // portrait of the creator (About section)
+    poster:  "assets/poster.jpg",   // PLACEHOLDER — campaign poster (portrait ~2:3)
+    profile: "assets/profile.jpg",  // PLACEHOLDER — creator portrait (About section)
   },
 
   /* ---- Contact / social ------------------------------------------------- */
   contact: {
+    // PLACEHOLDER WhatsApp number — replace with the real one.
     // Full international format, digits only (no +, spaces or dashes).
     // India example: 91 + 10-digit number.
     whatsapp: "919876543210",
@@ -66,8 +69,25 @@ const SITE_CONFIG = {
   /* ---- What we shoot ---------------------------------------------------- */
   whatWeShoot: {
     heading: "WHAT WE SHOOT",
-    text: "All types of shoots available, tailored to your vision.",
+    // Optional one-line intro shown under the heading.
+    intro: "A shoot for every story.",
   },
+
+  /* ---- Shoot types -------------------------------------------------------
+     SINGLE SOURCE OF TRUTH. Used by BOTH the "What We Shoot" section AND the
+     "Type of Shoot" dropdown in the booking form. Edit this list only here. */
+  shootTypes: [
+    "Wedding Shoot",
+    "Pre-Wedding Shoot",
+    "Birthday Shoot",
+    "Event Shoot",
+    "Fashion Shoot",
+    "Product Shoot",
+    "Portrait Shoot",
+    "Music Video",
+    "Reel / Social Media Shoot",
+    "Commercial Shoot",
+  ],
 
   /* ---- About ------------------------------------------------------------ */
   about: {
@@ -84,7 +104,7 @@ const SITE_CONFIG = {
     heading: "LET'S CREATE SOMETHING.",
     intro: "Tell me about your shoot and I'll reply on WhatsApp.",
     submitLabel: "BOOK VIA WHATSAPP",
-    // Service locations — this is the ONLY list the dropdown uses.
+    // Service locations — this is the ONLY list the city dropdown uses.
     cities: [
       "Navade",
       "Panvel",
@@ -94,6 +114,8 @@ const SITE_CONFIG = {
       "Roadpali",
       "Khandeshwar",
       "Khanda Colony",
+      "Karanjade",
+      "Nerul",
     ],
   },
 
