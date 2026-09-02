@@ -1,102 +1,129 @@
 /* =============================================================================
-   CENTRALIZED SITE CONFIGURATION
+   AP CINEMATIC — CENTRALIZED CONFIGURATION
    -----------------------------------------------------------------------------
-   Everything changeable lives here. Edit this file only — every section of the
-   site reads its content and assets from this single object.
+   Every editable piece of business information lives HERE and only here.
+   Change the WhatsApp number, swap an image, edit copy or the city list in
+   this one file and it updates everywhere on the site automatically.
 
-   To swap the poster / profile photo later, just replace the file at the path
-   below (assets/hero-poster.jpg, assets/profile.jpg) OR point these values at
-   a new URL. Nothing else needs to change.
+   To replace an image: overwrite the file in /assets keeping the same name,
+   OR point the value below at a new path / URL.
    ============================================================================= */
 
 const SITE_CONFIG = {
 
-  /* ---- Brand / identity -------------------------------------------------- */
+  /* ---- Brand -------------------------------------------------------------- */
   brand: {
-    name: "AARAV MEHTA",          // videographer / brand name (used as wordmark)
-    tagline: "Films & Cinematic Storytelling",
-    // No logo image supplied — the wordmark (brand.name) is used instead.
-    // If you later get a logo, set logo to its path e.g. "assets/logo.png"
-    // and the site will use the image in place of the text wordmark.
+    name: "AP CINEMATIC",
+    // No standalone logo file supplied — the wordmark (brand.name) is used as
+    // the logo. If you get a logo image later, set `logo` to its path
+    // (e.g. "assets/logo.png") and it will be used in place of the text.
     logo: null,
+    tagline: "Social media video creator",
   },
 
   /* ---- Core assets (replace these files to rebrand) ---------------------- */
+  /* PLACEHOLDERS — replace the files in /assets (keep the same names) or point
+     these values at new paths/URLs. Do not need to touch any other file. */
   assets: {
-    heroPoster: "assets/hero-poster.jpg", // clean full-screen hero background
-    profile:    "assets/profile.jpg",     // professional photo for About
+    poster:  "assets/poster.jpg",   // PLACEHOLDER — campaign poster (portrait ~2:3)
+    profile: "assets/profile.jpg",  // PLACEHOLDER — creator portrait (About section)
   },
 
   /* ---- Contact / social ------------------------------------------------- */
   contact: {
-    // WhatsApp number in FULL international format, digits only (no +, spaces).
-    // Example for India: 91 + 10-digit number.
+    // PLACEHOLDER WhatsApp number — replace with the real one.
+    // Full international format, digits only (no +, spaces or dashes).
+    // India example: 91 + 10-digit number.
     whatsapp: "919876543210",
     instagram: "https://instagram.com/",
-    instagramHandle: "@aaravmehta.films",
-    email: "hello@aaravmehta.films",
+    instagramHandle: "@apcinematic",
+    email: "hello@apcinematic.in",
     baseLocation: "Navi Mumbai, India",
   },
 
   /* ---- Hero ------------------------------------------------------------- */
   hero: {
-    eyebrow: "Cinematic Videography",
-    supporting: "Weddings, brands and stories — captured with intention.",
-    ctaLabel: "Book a Shoot",
+    headline: "YOUR STORY. YOUR FRAME.",
+    supporting: "Social media video creator.",
+    ctaPrimary: "Book a Shoot",
+    ctaSecondary: "Instagram",
     scrollHint: "Scroll",
   },
 
-  /* ---- Section 2: Process ---------------------------------------------- */
+  /* ---- Poster section --------------------------------------------------- */
+  poster: {
+    kicker: "The Campaign",
+    caption: "AP Cinematic — 2026",
+  },
+
+  /* ---- Process ---------------------------------------------------------- */
   process: {
-    heading: "How It Works",
+    heading: "The Process",
     steps: [
-      { no: "01", title: "Tell Us Your Vision", text: "Share the details of your shoot." },
-      { no: "02", title: "We Create",           text: "We plan and capture it." },
-      { no: "03", title: "Your Story",          text: "Get your final cinematic content." },
+      { no: "01", title: "SHARE YOUR VISION", text: "Tell us what you want to create." },
+      { no: "02", title: "WE SHOOT",          text: "We capture your idea with a cinematic approach." },
+      { no: "03", title: "GET YOUR CONTENT",  text: "Receive content ready to use and share." },
     ],
   },
 
-  /* ---- Section 3: What We Shoot ---------------------------------------- */
+  /* ---- What we shoot ---------------------------------------------------- */
   whatWeShoot: {
-    heading: "What We Shoot",
-    text: "All types of shoots available, tailored to your vision.",
+    heading: "WHAT WE SHOOT",
+    // Optional one-line intro shown under the heading.
+    intro: "A shoot for every story.",
   },
 
-  /* ---- Section 4: About ------------------------------------------------ */
+  /* ---- Shoot types -------------------------------------------------------
+     SINGLE SOURCE OF TRUTH. Used by BOTH the "What We Shoot" section AND the
+     "Type of Shoot" dropdown in the booking form. Edit this list only here. */
+  shootTypes: [
+    "Wedding Shoot",
+    "Pre-Wedding Shoot",
+    "Birthday Shoot",
+    "Event Shoot",
+    "Fashion Shoot",
+    "Product Shoot",
+    "Portrait Shoot",
+    "Music Video",
+    "Reel / Social Media Shoot",
+    "Commercial Shoot",
+  ],
+
+  /* ---- About ------------------------------------------------------------ */
   about: {
-    label: "About",
-    name: "Aarav Mehta",
-    role: "Cinematographer & Director",
-    body: "I make films that feel like memories. For the last eight years I've been " +
-          "behind the camera for weddings, brands and personal stories across Navi Mumbai — " +
-          "chasing light, honest moments and the small details that make a story yours.",
+    brandLine: "AP CINEMATIC",
+    name: "PRANIL AHER",
+    role: "Creator & Cinematographer",
+    body: "I'm a social-media video creator making scroll-stopping, cinematic " +
+          "content across Navi Mumbai. From reels to campaigns, I turn everyday " +
+          "moments into stories worth sharing.",
   },
 
-  /* ---- Section 5: Booking ---------------------------------------------- */
+  /* ---- Booking ---------------------------------------------------------- */
   booking: {
-    heading: "Let's Create Something.",
-    intro: "Tell me about your shoot and I'll get back to you on WhatsApp.",
-    submitLabel: "Send on WhatsApp",
-    // Cities shown in the required dropdown.
+    heading: "LET'S CREATE SOMETHING.",
+    intro: "Tell me about your shoot and I'll reply on WhatsApp.",
+    submitLabel: "BOOK VIA WHATSAPP",
+    // Service locations — this is the ONLY list the city dropdown uses.
     cities: [
+      "Navade",
+      "Panvel",
       "Kalamboli",
       "Kamothe",
       "Kharghar",
-      "Panvel",
+      "Roadpali",
       "Khandeshwar",
       "Khanda Colony",
-      "Taloja",
-      "Navade",
-      "Roadpali",
+      "Karanjade",
+      "Nerul",
     ],
   },
 
-  /* ---- Footer --------------------------------------------------------- */
+  /* ---- Footer ----------------------------------------------------------- */
   footer: {
-    note: "Cinematic videography, Navi Mumbai.",
-    copyright: "© " + new Date().getFullYear() + " Aarav Mehta. All rights reserved.",
+    note: "Cinematic social-media content. Navi Mumbai.",
+    copyright: "© " + new Date().getFullYear() + " AP Cinematic. All rights reserved.",
   },
 };
 
-// Expose globally for the vanilla-JS app.
 window.SITE_CONFIG = SITE_CONFIG;
