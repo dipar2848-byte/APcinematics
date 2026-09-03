@@ -87,6 +87,7 @@ const SITE_CONFIG = {
     "Music Video",
     "Reel / Social Media Shoot",
     "Commercial Shoot",
+    "other",
   ],
 
   /* ---- About ------------------------------------------------------------ */
