@@ -34,7 +34,7 @@ const SITE_CONFIG = {
     // PLACEHOLDER WhatsApp number — replace with the real one.
     // Full international format, digits only (no +, spaces or dashes).
     // India example: 91 + 10-digit number.
-    whatsapp: "917720876302"
+    whatsapp: "917720876302",
     instagram: "https://instagram.com/",
     instagramHandle: "@apcinematic",
     email: "hello@apcinematic.in",
