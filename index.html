@@ -104,6 +104,7 @@
     </div>
 
     <form class="booking__form reveal" id="bookingForm" novalidate>
+
       <div class="field">
         <label for="f-name">Name</label>
         <input type="text" id="f-name" name="name" autocomplete="name" required />
@@ -112,13 +113,31 @@
 
       <div class="field field--half">
         <label for="f-date">Date</label>
-        <input type="date" id="f-date" name="date" required />
+        <input
+          type="text"
+          id="f-date"
+          name="date"
+          inputmode="numeric"
+          autocomplete="off"
+          placeholder="DD/MM/YYYY"
+          maxlength="10"
+          required
+        />
         <span class="field__error" data-error-for="date"></span>
       </div>
 
       <div class="field field--half">
         <label for="f-time">Time</label>
-        <input type="time" id="f-time" name="time" required />
+        <input
+          type="text"
+          id="f-time"
+          name="time"
+          inputmode="text"
+          autocomplete="off"
+          placeholder="e.g. 7:30 PM"
+          maxlength="8"
+          required
+        />
         <span class="field__error" data-error-for="time"></span>
       </div>
 
