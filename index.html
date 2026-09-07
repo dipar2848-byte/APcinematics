@@ -14,9 +14,9 @@
 
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
 
-  <!-- Global atmospheric color field (CSS light spills) -->
   <div class="atmos" aria-hidden="true">
     <span class="atmos__blob atmos__blob--cyan"></span>
     <span class="atmos__blob atmos__blob--magenta"></span>
@@ -24,9 +24,9 @@
     <span class="atmos__grain"></span>
   </div>
 
-  <!-- ============================ NAV ============================ -->
   <header class="nav" id="nav">
     <a href="#top" class="nav__brand" data-brand-name></a>
+
     <nav class="nav__links">
       <a href="#work" class="nav__link">Poster</a>
       <a href="#about" class="nav__link">About</a>
@@ -34,19 +34,28 @@
     </nav>
   </header>
 
-  <!-- ============================ HERO =========================== -->
   <section class="hero" id="top">
     <div class="hero__inner">
+
       <p class="hero__brand reveal" data-brand-name></p>
+
       <h1 class="hero__headline">
         <span class="reveal" data-hero-line1></span>
         <span class="reveal" data-hero-line2></span>
       </h1>
+
       <p class="hero__supporting reveal" data-hero-supporting></p>
+
       <div class="hero__actions reveal">
         <a class="btn btn--gold" href="#booking" data-hero-cta1></a>
-        <a class="btn btn--ghost" data-hero-cta2 target="_blank" rel="noopener"></a>
+        <a
+          class="btn btn--ghost"
+          data-hero-cta2
+          target="_blank"
+          rel="noopener"
+        ></a>
       </div>
+
     </div>
 
     <a href="#work" class="hero__scroll" aria-label="Scroll down">
@@ -55,12 +64,12 @@
     </a>
   </section>
 
-  <!-- ========================= POSTER ============================ -->
   <section class="work section" id="work">
     <div class="work__text">
       <p class="work__kicker reveal" data-poster-kicker></p>
       <p class="work__caption reveal" data-poster-caption></p>
     </div>
+
     <figure class="work__poster reveal" data-parallax-soft>
       <div class="work__frame">
         <img class="work__img" data-poster-img alt="" />
@@ -68,26 +77,30 @@
     </figure>
   </section>
 
-  <!-- ========================= PROCESS =========================== -->
   <section class="process section" id="process">
     <h2 class="process__heading reveal" data-process-heading></h2>
     <ol class="process__list" data-process-list></ol>
   </section>
 
-  <!-- ======================= WHAT WE SHOOT ======================= -->
   <section class="shoot section" id="shoot">
     <div class="shoot__head">
       <h2 class="shoot__heading reveal" data-shoot-heading></h2>
       <p class="shoot__intro reveal" data-shoot-intro></p>
     </div>
+
     <ul class="shoot__list" data-shoot-list></ul>
   </section>
 
-  <!-- ========================== ABOUT ============================ -->
   <section class="about section" id="about">
     <figure class="about__media reveal">
-      <img class="about__img" data-about-img alt="" data-parallax-soft />
+      <img
+        class="about__img"
+        data-about-img
+        alt=""
+        data-parallax-soft
+      />
     </figure>
+
     <div class="about__body">
       <p class="about__brand reveal" data-about-brand></p>
       <h2 class="about__name reveal" data-about-name></h2>
@@ -96,8 +109,8 @@
     </div>
   </section>
 
-  <!-- ========================= BOOKING =========================== -->
   <section class="booking section" id="booking">
+
     <div class="booking__head">
       <h2 class="booking__heading reveal" data-booking-heading></h2>
       <p class="booking__intro reveal" data-booking-intro></p>
@@ -105,96 +118,219 @@
 
     <form class="booking__form reveal" id="bookingForm" novalidate>
 
+      <!-- NAME -->
       <div class="field">
         <label for="f-name">Name</label>
-        <input type="text" id="f-name" name="name" autocomplete="name" required />
-        <span class="field__error" data-error-for="name"></span>
-      </div>
 
-      <div class="field field--half">
-        <label for="f-date">Date</label>
         <input
           type="text"
-          id="f-date"
-          name="date"
-          inputmode="numeric"
-          autocomplete="off"
-          placeholder="DD/MM/YYYY"
-          maxlength="10"
+          id="f-name"
+          name="name"
+          autocomplete="name"
           required
         />
-        <span class="field__error" data-error-for="date"></span>
+
+        <span
+          class="field__error"
+          data-error-for="name"
+        ></span>
       </div>
 
+      <!-- DATE -->
       <div class="field field--half">
-        <label for="f-time">Time</label>
-        <input
-          type="text"
-          id="f-time"
-          name="time"
-          inputmode="text"
-          autocomplete="off"
-          placeholder="e.g. 7:30 PM"
-          maxlength="8"
-          required
-        />
-        <span class="field__error" data-error-for="time"></span>
+        <label>Date</label>
+
+        <div class="date-selects">
+
+          <select id="f-day" name="day" required>
+            <option value="" disabled selected>Day</option>
+          </select>
+
+          <select id="f-month" name="month" required>
+            <option value="" disabled selected>Month</option>
+          </select>
+
+          <select id="f-year" name="year" required>
+            <option value="" disabled selected>Year</option>
+          </select>
+
+        </div>
+
+        <span
+          class="field__error"
+          data-error-for="date"
+        ></span>
       </div>
 
+      <!-- TIME -->
+      <div class="field field--half">
+        <label>Time</label>
+
+        <div class="time-selects">
+
+          <select id="f-hour" name="hour" required>
+            <option value="" disabled selected>Hour</option>
+          </select>
+
+          <select id="f-minute" name="minute" required>
+            <option value="" disabled selected>Min</option>
+          </select>
+
+          <select id="f-ampm" name="ampm" required>
+            <option value="" disabled selected>AM/PM</option>
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+
+        </div>
+
+        <span
+          class="field__error"
+          data-error-for="time"
+        ></span>
+      </div>
+
+      <!-- PHONE -->
       <div class="field field--half">
         <label for="f-phone">Phone number</label>
-        <input type="tel" id="f-phone" name="phone" inputmode="tel" autocomplete="tel" required />
-        <span class="field__error" data-error-for="phone"></span>
+
+        <input
+          type="tel"
+          id="f-phone"
+          name="phone"
+          inputmode="tel"
+          autocomplete="tel"
+          required
+        />
+
+        <span
+          class="field__error"
+          data-error-for="phone"
+        ></span>
       </div>
 
+      <!-- CITY -->
       <div class="field field--half">
         <label for="f-city">City</label>
+
         <select id="f-city" name="city" required>
-          <option value="" disabled selected>Select a city</option>
+          <option value="" disabled selected>
+            Select a city
+          </option>
         </select>
-        <span class="field__error" data-error-for="city"></span>
+
+        <span
+          class="field__error"
+          data-error-for="city"
+        ></span>
       </div>
 
+      <!-- SHOOT TYPE -->
       <div class="field field--half">
         <label for="f-shoottype">Type of shoot</label>
+
         <select id="f-shoottype" name="shootType" required>
-          <option value="" disabled selected>Select a shoot type</option>
+          <option value="" disabled selected>
+            Select a shoot type
+          </option>
         </select>
-        <span class="field__error" data-error-for="shootType"></span>
+
+        <span
+          class="field__error"
+          data-error-for="shootType"
+        ></span>
       </div>
 
+      <!-- ADDRESS -->
       <div class="field field--address" id="addressField">
         <label for="f-address">Full address</label>
-        <input type="text" id="f-address" name="address" autocomplete="street-address" required />
-        <span class="field__error" data-error-for="address"></span>
+
+        <input
+          type="text"
+          id="f-address"
+          name="address"
+          autocomplete="street-address"
+          required
+        />
+
+        <span
+          class="field__error"
+          data-error-for="address"
+        ></span>
       </div>
 
+      <!-- MESSAGE -->
       <div class="field">
-        <label for="f-message">Message <span class="field__opt">(optional)</span></label>
-        <textarea id="f-message" name="message" rows="3"></textarea>
+        <label for="f-message">
+          Message <span class="field__opt">(optional)</span>
+        </label>
+
+        <textarea
+          id="f-message"
+          name="message"
+          rows="3"
+        ></textarea>
       </div>
 
-      <button type="submit" class="btn btn--gold btn--block" data-booking-submit></button>
+      <button
+        type="submit"
+        class="btn btn--gold btn--block"
+        data-booking-submit
+      ></button>
+
     </form>
   </section>
 
-  <!-- ========================== FOOTER =========================== -->
   <footer class="footer">
+
     <div class="footer__top">
-      <span class="footer__brand" data-brand-name></span>
+
+      <span
+        class="footer__brand"
+        data-brand-name
+      ></span>
+
       <nav class="footer__links">
-        <a data-footer-instagram target="_blank" rel="noopener">Instagram</a>
-        <a data-footer-whatsapp target="_blank" rel="noopener">WhatsApp</a>
+
+        <a
+          data-footer-instagram
+          target="_blank"
+          rel="noopener"
+        >
+          Instagram
+        </a>
+
+        <a
+          data-footer-whatsapp
+          target="_blank"
+          rel="noopener"
+        >
+          WhatsApp
+        </a>
+
         <a data-footer-email></a>
+
       </nav>
     </div>
+
     <div class="footer__bottom">
-      <p class="footer__note" data-footer-note></p>
-      <p class="footer__copy" data-footer-copyright></p>
+
+      <p
+        class="footer__note"
+        data-footer-note
+      ></p>
+
+      <p
+        class="footer__copy"
+        data-footer-copyright
+      ></p>
+
     </div>
+
   </footer>
 
   <script src="js/config.js"></script>
   <script src="js/app.js"></script>
+
 </body>
 </html>
