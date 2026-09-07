@@ -1,10 +1,10 @@
 /* =============================================================================
    AP CINEMATIC — app logic
    - Binds all content from SITE_CONFIG
-   - Cinematic entrance + scroll reveals + gentle parallax (rAF)
-   - Booking form validation -> pre-filled WhatsApp message (frontend only)
-   - Date format: DD/MM/YYYY
-   - Time format: 12-hour with AM/PM
+   - Cinematic entrance + scroll reveals + gentle parallax
+   - Booking form validation -> pre-filled WhatsApp message
+   - Date: Day / Month / Year selectors
+   - Time: Hour / Minute / AM/PM selectors
    ============================================================================= */
 
 (function () {
@@ -34,7 +34,7 @@
   function bindContent() {
     setText("data-brand-name", CFG.brand.name);
 
-    // Hero
+    /* Hero */
     var parts = CFG.hero.headline.split(/\s+(?=[^\s]+$)/);
 
     if (parts.length === 2) {
@@ -61,22 +61,27 @@
     setText("data-hero-scrollhint", CFG.hero.scrollHint);
 
     var cta2 = $("[data-hero-cta2]");
+
     if (cta2) {
       cta2.href = CFG.contact.instagram;
     }
 
-    // Poster
+    /* Poster */
     setText("data-poster-kicker", CFG.poster.kicker);
     setText("data-poster-caption", CFG.poster.caption);
 
     var pimg = $("[data-poster-img]");
+
     if (pimg) {
       pimg.src = CFG.assets.poster;
       pimg.alt = CFG.brand.name + " poster";
     }
 
-    // Process
-    setText("data-process-heading", CFG.process.heading);
+    /* Process */
+    setText(
+      "data-process-heading",
+      CFG.process.heading
+    );
 
     var list = $("[data-process-list]");
 
@@ -101,8 +106,12 @@
       });
     }
 
-    // What we shoot
-    setText("data-shoot-heading", CFG.whatWeShoot.heading);
+    /* What we shoot */
+    setText(
+      "data-shoot-heading",
+      CFG.whatWeShoot.heading
+    );
+
     setText(
       "data-shoot-intro",
       CFG.whatWeShoot.intro || ""
@@ -128,11 +137,26 @@
       });
     }
 
-    // About
-    setText("data-about-brand", CFG.about.brandLine);
-    setText("data-about-name", CFG.about.name);
-    setText("data-about-role", CFG.about.role);
-    setText("data-about-body", CFG.about.body);
+    /* About */
+    setText(
+      "data-about-brand",
+      CFG.about.brandLine
+    );
+
+    setText(
+      "data-about-name",
+      CFG.about.name
+    );
+
+    setText(
+      "data-about-role",
+      CFG.about.role
+    );
+
+    setText(
+      "data-about-body",
+      CFG.about.body
+    );
 
     var aimg = $("[data-about-img]");
 
@@ -141,11 +165,23 @@
       aimg.alt = CFG.about.name;
     }
 
-    // Booking
-    setText("data-booking-heading", CFG.booking.heading);
-    setText("data-booking-intro", CFG.booking.intro);
-    setText("data-booking-submit", CFG.booking.submitLabel);
+    /* Booking */
+    setText(
+      "data-booking-heading",
+      CFG.booking.heading
+    );
 
+    setText(
+      "data-booking-intro",
+      CFG.booking.intro
+    );
+
+    setText(
+      "data-booking-submit",
+      CFG.booking.submitLabel
+    );
+
+    /* Cities */
     var sel = $("#f-city");
 
     if (sel) {
@@ -159,7 +195,7 @@
       });
     }
 
-    // Type-of-shoot dropdown
+    /* Shoot types */
     var stSel = $("#f-shoottype");
 
     if (stSel) {
@@ -173,8 +209,12 @@
       });
     }
 
-    // Footer
-    setText("data-footer-note", CFG.footer.note);
+    /* Footer */
+    setText(
+      "data-footer-note",
+      CFG.footer.note
+    );
+
     setText(
       "data-footer-copyright",
       CFG.footer.copyright
@@ -197,8 +237,12 @@
     var em = $("[data-footer-email]");
 
     if (em) {
-      em.href = "mailto:" + CFG.contact.email;
-      em.textContent = CFG.contact.email;
+      em.href =
+        "mailto:" +
+        CFG.contact.email;
+
+      em.textContent =
+        CFG.contact.email;
     }
 
     document.title =
@@ -321,88 +365,204 @@
   }
 
   /* ------------------------------------------------------------------ *
-   *  4. Date + Time formatting helpers
+   *  4. Date + Time selectors
    * ------------------------------------------------------------------ */
 
-  function isValidDateFormat(value) {
-    var match =
-      /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(value);
+  function populateDateSelectors() {
+    var day = $("#f-day");
+    var month = $("#f-month");
+    var year = $("#f-year");
 
-    if (!match) return false;
+    if (!day || !month || !year) return;
 
-    var day = Number(match[1]);
-    var month = Number(match[2]);
-    var year = Number(match[3]);
+    /* Days 01–31 */
+    for (var d = 1; d <= 31; d++) {
+      var dayOption =
+        document.createElement("option");
+
+      dayOption.value =
+        String(d).padStart(2, "0");
+
+      dayOption.textContent =
+        String(d).padStart(2, "0");
+
+      day.appendChild(dayOption);
+    }
+
+    /* Months */
+    var months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+
+    months.forEach(function (name, index) {
+      var monthOption =
+        document.createElement("option");
+
+      monthOption.value =
+        String(index + 1).padStart(2, "0");
+
+      monthOption.textContent = name;
+
+      month.appendChild(monthOption);
+    });
+
+    /* Years: current year through 10 years ahead */
+    var currentYear =
+      new Date().getFullYear();
+
+    for (
+      var y = currentYear;
+      y <= currentYear + 10;
+      y++
+    ) {
+      var yearOption =
+        document.createElement("option");
+
+      yearOption.value = String(y);
+      yearOption.textContent = String(y);
+
+      year.appendChild(yearOption);
+    }
+  }
+
+  function populateTimeSelectors() {
+    var hour = $("#f-hour");
+    var minute = $("#f-minute");
+
+    if (!hour || !minute) return;
+
+    /* Hours 1–12 */
+    for (var h = 1; h <= 12; h++) {
+      var hourOption =
+        document.createElement("option");
+
+      hourOption.value = String(h);
+      hourOption.textContent = String(h);
+
+      hour.appendChild(hourOption);
+    }
+
+    /* Minutes every 5 minutes */
+    for (var m = 0; m < 60; m += 5) {
+      var minuteOption =
+        document.createElement("option");
+
+      minuteOption.value =
+        String(m).padStart(2, "0");
+
+      minuteOption.textContent =
+        String(m).padStart(2, "0");
+
+      minute.appendChild(minuteOption);
+    }
+  }
+
+  function getSelectedDate() {
+    var day = $("#f-day");
+    var month = $("#f-month");
+    var year = $("#f-year");
+
+    if (
+      !day ||
+      !month ||
+      !year ||
+      !day.value ||
+      !month.value ||
+      !year.value
+    ) {
+      return "";
+    }
+
+    return (
+      day.value +
+      "/" +
+      month.value +
+      "/" +
+      year.value
+    );
+  }
+
+  function getSelectedTime() {
+    var hour = $("#f-hour");
+    var minute = $("#f-minute");
+    var ampm = $("#f-ampm");
+
+    if (
+      !hour ||
+      !minute ||
+      !ampm ||
+      !hour.value ||
+      !minute.value ||
+      !ampm.value
+    ) {
+      return "";
+    }
+
+    return (
+      hour.value +
+      ":" +
+      minute.value +
+      " " +
+      ampm.value
+    );
+  }
+
+  function isValidSelectedDate() {
+    var day = $("#f-day");
+    var month = $("#f-month");
+    var year = $("#f-year");
+
+    if (
+      !day ||
+      !month ||
+      !year ||
+      !day.value ||
+      !month.value ||
+      !year.value
+    ) {
+      return false;
+    }
+
+    var d = Number(day.value);
+    var m = Number(month.value);
+    var y = Number(year.value);
 
     var date = new Date(
-      year,
-      month - 1,
-      day
+      y,
+      m - 1,
+      d
     );
 
     return (
-      date.getFullYear() === year &&
-      date.getMonth() === month - 1 &&
-      date.getDate() === day
+      date.getFullYear() === y &&
+      date.getMonth() === m - 1 &&
+      date.getDate() === d
     );
   }
 
-  function isValidTimeFormat(value) {
-    var match =
-      /^(1[0-2]|[1-9]):([0-5]\d)\s?(AM|PM)$/i.exec(
-        value
-      );
+  function isValidSelectedTime() {
+    var hour = $("#f-hour");
+    var minute = $("#f-minute");
+    var ampm = $("#f-ampm");
 
-    return !!match;
-  }
-
-  function formatDateInput(input) {
-    if (!input) return;
-
-    input.addEventListener("input", function () {
-      var value = input.value.replace(/\D/g, "");
-
-      if (value.length > 8) {
-        value = value.slice(0, 8);
-      }
-
-      if (value.length > 4) {
-        value =
-          value.slice(0, 2) +
-          "/" +
-          value.slice(2, 4) +
-          "/" +
-          value.slice(4);
-      } else if (value.length > 2) {
-        value =
-          value.slice(0, 2) +
-          "/" +
-          value.slice(2);
-      }
-
-      input.value = value;
-    });
-  }
-
-  function normalizeTime(value) {
-    value = value
-      .trim()
-      .replace(/\s+/g, " ")
-      .toUpperCase();
-
-    var match =
-      /^(1[0-2]|[1-9]):([0-5]\d)\s?(AM|PM)$/.exec(
-        value
-      );
-
-    if (!match) return value;
-
-    return (
-      match[1] +
-      ":" +
-      match[2] +
-      " " +
-      match[3]
+    return !!(
+      hour &&
+      minute &&
+      ampm &&
+      hour.value &&
+      minute.value &&
+      ampm.value
     );
   }
 
@@ -414,31 +574,40 @@
 
     if (!form) return;
 
-    var dateInput = $("#f-date");
-    var timeInput = $("#f-time");
-
-    // Automatically format the date as DD/MM/YYYY.
-    formatDateInput(dateInput);
-
-    // Automatically normalize time to 12-hour AM/PM format.
-    if (timeInput) {
-      timeInput.addEventListener(
-        "blur",
-        function () {
-          timeInput.value =
-            normalizeTime(timeInput.value);
-        }
-      );
-    }
+    populateDateSelectors();
+    populateTimeSelectors();
 
     function setError(name, msg) {
       var input = form.querySelector(
         '[name="' + name + '"]'
       );
 
+      /*
+       * Date and time use multiple selects, so find
+       * their parent field when the normal name lookup
+       * doesn't directly match.
+       */
       var wrap = input
         ? input.closest(".field")
         : null;
+
+      if (!wrap && name === "date") {
+        var dateSelect =
+          $("#f-day");
+
+        wrap = dateSelect
+          ? dateSelect.closest(".field")
+          : null;
+      }
+
+      if (!wrap && name === "time") {
+        var timeSelect =
+          $("#f-hour");
+
+        wrap = timeSelect
+          ? timeSelect.closest(".field")
+          : null;
+      }
 
       var errEl = form.querySelector(
         '[data-error-for="' +
@@ -454,7 +623,8 @@
       }
 
       if (errEl) {
-        errEl.textContent = msg || "";
+        errEl.textContent =
+          msg || "";
       }
     }
 
@@ -462,41 +632,71 @@
       var ok = true;
 
       [
-        ["name", "Please enter your name."],
-        ["date", "Please enter a valid date (DD/MM/YYYY)."],
-        ["time", "Please enter a valid time (e.g. 7:30 PM)."],
-        ["phone", "Please enter your phone number."],
-        ["city", "Please select a city."],
-        ["shootType", "Please select a shoot type."],
-        ["address", "Please enter your full address."]
+        [
+          "name",
+          "Please enter your name."
+        ],
+        [
+          "date",
+          "Please select a valid date."
+        ],
+        [
+          "time",
+          "Please select a time."
+        ],
+        [
+          "phone",
+          "Please enter your phone number."
+        ],
+        [
+          "city",
+          "Please select a city."
+        ],
+        [
+          "shootType",
+          "Please select a shoot type."
+        ],
+        [
+          "address",
+          "Please enter your full address."
+        ]
       ].forEach(function (p) {
         if (!data[p[0]]) {
-          setError(p[0], p[1]);
+          setError(
+            p[0],
+            p[1]
+          );
+
           ok = false;
         } else {
-          setError(p[0], "");
+          setError(
+            p[0],
+            ""
+          );
         }
       });
 
       if (
         data.date &&
-        !isValidDateFormat(data.date)
+        !isValidSelectedDate()
       ) {
         setError(
           "date",
-          "Please enter the date as DD/MM/YYYY."
+          "Please select a valid date."
         );
+
         ok = false;
       }
 
       if (
         data.time &&
-        !isValidTimeFormat(data.time)
+        !isValidSelectedTime()
       ) {
         setError(
           "time",
-          "Please enter the time as 7:30 PM."
+          "Please select a valid time."
         );
+
         ok = false;
       }
 
@@ -508,7 +708,8 @@
       function (e) {
         e.preventDefault();
 
-        var fd = new FormData(form);
+        var fd =
+          new FormData(form);
 
         var data = {
           name:
@@ -517,15 +718,10 @@
               .trim(),
 
           date:
-            (fd.get("date") || "")
-              .toString()
-              .trim(),
+            getSelectedDate(),
 
           time:
-            normalizeTime(
-              (fd.get("time") || "")
-                .toString()
-            ),
+            getSelectedTime(),
 
           phone:
             (fd.get("phone") || "")
@@ -538,17 +734,26 @@
               .trim(),
 
           shootType:
-            (fd.get("shootType") || "")
+            (
+              fd.get("shootType") ||
+              ""
+            )
               .toString()
               .trim(),
 
           address:
-            (fd.get("address") || "")
+            (
+              fd.get("address") ||
+              ""
+            )
               .toString()
               .trim(),
 
           message:
-            (fd.get("message") || "")
+            (
+              fd.get("message") ||
+              ""
+            )
               .toString()
               .trim()
         };
@@ -556,7 +761,8 @@
         if (!validate(data)) {
           var first =
             form.querySelector(
-              ".has-error input, .has-error select"
+              ".has-error input, " +
+              ".has-error select"
             );
 
           if (first) {
@@ -566,6 +772,11 @@
           return;
         }
 
+        /*
+         * WhatsApp message is constructed manually.
+         * This means there is no browser date/time
+         * conversion or locale issue.
+         */
         var lines = [
           CFG.brand.name +
             " — shoot enquiry",
@@ -618,6 +829,9 @@
     );
   }
 
+  /* ------------------------------------------------------------------ *
+   *  6. Start
+   * ------------------------------------------------------------------ */
   document.addEventListener(
     "DOMContentLoaded",
     function () {
@@ -627,4 +841,5 @@
       initForm();
     }
   );
+
 })();
